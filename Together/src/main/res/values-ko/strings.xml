@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Together</string>
+
+    <string name="navigation_drawer_open">네비게이션 드로어 열기</string>
+    <string name="navigation_drawer_close">네비게이션 드로어 닫기</string>
+
+    <string name="action_settings">세팅</string>
+
+    <string name="hello_blank_fragment">안녕 공백 프래그먼트</string>
+</resources>

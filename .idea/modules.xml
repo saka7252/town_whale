@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Together/Together.iml" filepath="$PROJECT_DIR$/Together/Together.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TogetherSample.iml" filepath="$PROJECT_DIR$/TogetherSample.iml" />
+    </modules>
+  </component>
+</project>

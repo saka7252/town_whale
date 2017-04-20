@@ -1,0 +1,88 @@
+import java.text.SimpleDateFormat
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "com.esen.together"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "0.0.0.1"
+        multiDexEnabled true                            // saka check, 17.04.19, 14.12, added
+    }
+    // saka check, 17.04.19, 14.12, added, start    --->
+    signingConfigs {
+        debug {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile file('./keystore/debug.keystore')
+            storePassword 'android'
+        }
+        release {
+            storeFile file('./keystore/betweenbit.keystore');
+            storePassword 'bbwelcome!13'
+            keyAlias 'betweenbit'
+            keyPassword 'bbwelcome!13'
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def df = new SimpleDateFormat("yyMMdd")             // yyMMdd          yy.MM.dd_HH.mm
+            df.setTimeZone(TimeZone.getDefault())
+            def file = output.outputFile
+            // simple date format 으로 날짜를 앞에 붙여주고, BuildTypesTestApp(앱이름)을 추가, versionName 과 versionCode 도 붙여줌
+            //def newName = "${df.format(new Date())}_BuildTypesTestApp_{defaultConfig.versionName}(${defaultConfig.versionCode})"      // saka check
+            // 어떤 빌드로 생성된 apk 인지 알 수 있게 buildType 을 붙여줌
+            //newName += "_${variant.buildType.name}.apk"                                                                               // saka check
+            output.outputFile = new File(file.parent, file.name.replace(".apk", "_" + df.format(new Date()) + "_" + defaultConfig.versionName + ".apk"));
+        }
+    }
+    // saka check, 17.04.19, 14.12, added, end  <---
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release        // saka check, 17.04.19, 14.12, added
+        }
+    }
+    // saka check, 17.04.19, 14.12, added, start    --->
+    dexOptions {
+        javaMaxHeapSize "4g"
+        incremental true
+        jumboMode = true
+    }
+    productFlavors {
+    }
+    lintOptions {
+        abortOnError false
+        disable 'InvalidPackage'
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+    // saka check, 17.04.19, 14.12, added, end  <---
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:design:25.2.0'
+    compile "com.android.support:cardview-v7:25.2.0"
+    compile 'com.android.support:multidex:1.0.0'
+}
